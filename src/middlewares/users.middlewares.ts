@@ -293,7 +293,7 @@ export const accessTokenValidator = validate(
             try {
               const decoded_authorization = await verifyToken({ token: access_token })
               //nếu không có lỗi thì ta lưu decoded_authorization vào req để khi nào muốn biết ai gữi req thì dùng
-              req.decoded_authorization = decoded_authorization
+              ;(req as Request).decoded_authorization = decoded_authorization
             } catch (error) {
               throw new ErrorWithStatus({
                 //(error as JsonWebTokenError).message sẽ cho chuỗi `accesstoken invalid`, không đẹp lắm
@@ -336,7 +336,7 @@ export const refreshTokenValidator = validate(
                 })
               }
               //nếu có thì ta lưu decoded_refresh_token vào req để khi nào muốn biết ai gữi req thì dùng
-              req.decoded_refresh_token = decoded_refresh_token
+              ;(req as Request).decoded_refresh_token = decoded_refresh_token
             } catch (error) {
               //trong middleware này ta throw để lỗi về default error handler xử lý
               if (error instanceof JsonWebTokenError) {

@@ -3,12 +3,12 @@ import User from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 import usersService from '~/services/users.services'
 import { ParamsDictionary } from 'express-serve-static-core'
-import { RegisterReqBody } from '~/models/requests/User.request'
+import { LoginReqBody, LogoutReqBody, RegisterReqBody } from '~/models/requests/User.request'
 import { error } from 'console'
 import { ObjectId } from 'mongodb'
 import { USERS_MESSAGES } from '~/constants/messages'
 
-export const loginController = async (req: Request, res: Response) => {
+export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
   //neu no vao duoc day tuc la no da dang nhap thanh cong
   //sever phai tao ra accessToken va refresh token de dua cho client
   const user = req.user as User
@@ -28,7 +28,7 @@ export const registerController = async (req: Request<ParamsDictionary, any, Reg
   })
 }
 
-export const logoutController = async (req: Request, res: Response) => {
+export const logoutController = async (req: Request<ParamsDictionary, any, LogoutReqBody>, res: Response) => {
   const { refresh_token } = req.body
   const result = await usersService.logout(refresh_token) //hàm trả ra chuỗi báo logout thành công
   return res.json(result)
