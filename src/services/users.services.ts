@@ -6,6 +6,7 @@ import { RegisterReqBody } from '~/models/requests/User.request'
 import { hashPassword } from '~/utils/crypto'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { ObjectId } from 'mongodb'
+import { USERS_MESSAGES } from '~/constants/messages'
 
 class UsersService {
   async checkEmailExist(email: string) {
@@ -44,6 +45,14 @@ class UsersService {
     )
     return { access_token, refresh_token }
   }
+
+  async logout(refresh_token: string) {
+    await databaseService.refreshTokens.deleteOne({ token: refresh_token })
+    return {
+      message: USERS_MESSAGES.LOGOUT_SUCCESS
+    }
+  }
+
   //viết hàm nhận vào user_ID để bỏ vào payload tạo acccess token
   private signAccessToken(user_id: string) {
     return signToken({
