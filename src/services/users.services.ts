@@ -9,6 +9,7 @@ import { ObjectId } from 'mongodb'
 import { USERS_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/Errors'
 import { verify } from 'crypto'
+import HTTP_STATUS from '~/constants/httpStatus'
 
 class UsersService {
   async checkEmailExist(email: string) {
@@ -25,6 +26,7 @@ class UsersService {
     const result = await databaseService.users.insertOne(
       new User({
         ...payload,
+        username: `user${user_id.toString()}`, //thêm prop này
         _id: user_id,
         email_verify_token,
         date_of_birth: new Date(payload.date_of_birth),
@@ -230,6 +232,28 @@ class UsersService {
       }
     )
     return user.value //đây là document sau khi update
+  }
+  async getProfile(username: string) {
+    const user = await databaseService.users.findOne(
+      { username: username },
+      {
+        projection: {
+          password: 0,
+          email_verify_token: 0,
+          forgot_password_token: 0,
+          verify: 0,
+          create_at: 0,
+          update_at: 0
+        }
+      }
+    )
+    if (user == null) {
+      throw new ErrorWithStatus({
+        message: USERS_MESSAGES.USER_NOT_FOUND,
+        status: HTTP_STATUS.NOT_FOUND
+      })
+    }
+    return user
   }
 }
 
