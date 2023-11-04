@@ -23,6 +23,7 @@ export const USERS_MESSAGES = {
   FORGOT_PASSWORD_TOKEN_IS_REQUIRED: 'Forgot password token is required',
   INVALID_FORGOT_PASSWORD_TOKEN: 'Invalid forgot password token',
   VERIFY_FORGOT_PASSWORD_TOKEN_SUCCESS: 'Verify forgot password token success',
+  RESET_PASSWORD_SUCCESS: 'Reset password success',
   //confirmPassword
   CONFIRM_PASSWORD_IS_REQUIRED: 'Confirm password is required',
   CONFIRM_PASSWORD_MUST_BE_A_STRING: 'Confirm password must be a string',
@@ -42,5 +43,6 @@ export const USERS_MESSAGES = {
   USED_REFRESH_TOKEN_OR_NOT_EXIST: 'Used refresh token or not exist',
   LOGOUT_SUCCESS: 'Logout success',
   USER_BANNED: 'User banned',
-  USER_NOT_FOUND: 'User not found'
+  USER_NOT_FOUND: 'User not found',
+  GET_ME_SUCCESS: 'Get me success'
 } as const
